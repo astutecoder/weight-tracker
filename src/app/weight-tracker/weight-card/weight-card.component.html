@@ -14,15 +14,17 @@
         </span>
     </div>
     <div class="card-body">
-        <h2 class="card-title">
-            {{ weight.weight | number:'.1-1' }} kg
+        <h2 class="card-title font-weight-bold">
+            {{ weight.weight | number:'.1-1' }}<span class="text-muted">kg</span>
             <span *ngIf="weight.indicator">
                 <span class="up" *ngIf="weight.indicator === 'up'; else downIndicator">
-                    <mat-icon>keyboard_arrow_up</mat-icon>
+                    <!-- <mat-icon>keyboard_arrow_up</mat-icon> -->
+                    <mat-icon>arrow_upward</mat-icon>
                 </span>
                 <ng-template #downIndicator>
                     <span class="down" *ngIf="weight.indicator === 'down'; else stableIndicator">
-                        <mat-icon>keyboard_arrow_down</mat-icon>
+                        <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
+                        <mat-icon>arrow_downward</mat-icon>
                     </span>
                 </ng-template>
                 <ng-template #stableIndicator>

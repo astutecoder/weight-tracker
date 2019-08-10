@@ -13,10 +13,10 @@
 
 .up, .down, .stable {
     position: relative;
-    top: 0.5rem
+    top: 0.35rem
 }
-.up { color: red }
-.down { color: green }
+.up { color: #ffc107 }
+.down { color: rgb(37, 175, 37) }
 .stable { color: #2b70ab; top: 0.4rem !important; }
 .up > .material-icons, .down > .material-icons, .stable > .material-icons {
     font-size: 2rem
