@@ -1,12 +1,6 @@
 <div class="row">
     <div class="col-sm-12">
-        <weight-entry 
-            [weightEdit]="weight"
-            [indexEdit]="index"
-            (add-weight)="addWeight($event)" 
-            (update-weight)="updateWeight($event)" 
-            (delete-weight)="deleteWeight($event)" 
-        ></weight-entry>
+        <weight-entry [enable-edit-mode]="weightTrackerServices.selectedIndex"></weight-entry>
     </div>
     <div class="col-sm-12">
         <div class="row">
@@ -15,7 +9,7 @@
                 *ngFor="let weightData of weights; index as i"
                 [weight]="weightData"
                 [index]="i"
-                (edit-weight)="editWeight($event)"></weight-card>
+            ></weight-card>
         </div>
     </div>
 </div>

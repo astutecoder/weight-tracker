@@ -1,10 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AES } from 'crypto-js';
 
 import Intro from './intro.model'
-import WeightTrackerServices from '../shared/weight_tracker.services';
-import { SECRECT_PASS } from '../shared/constants';
+import IntroDataServices from '../common/intro_data.services';
 
 @Component({
     selector: 'app-intro',
@@ -13,26 +11,29 @@ import { SECRECT_PASS } from '../shared/constants';
 })
 export default class IntroComponent {
     @ViewChild('introForm', null) introForm: NgForm;
+    @Output('intro-data-set') introDataSet = new EventEmitter<boolean>();
     private introData: Intro = new Intro();
     public incompleteForm = false;
 
-    constructor(private weightTrackerService: WeightTrackerServices){}
+    constructor(private introDataService: IntroDataServices){}
 
     onInputChange(e) {
         this.introData[e.target.name] = e.target.value;
     }
-
-    isNumber(givenNumber: number) {
-        return givenNumber === undefined ? false : !!(givenNumber.toString().match(/^\d+\.?(\d+)?$/));
-    }
     
     handleSubmit() {
-            if(this.introForm.valid){
-                this.weightTrackerService.setIntroData(this.introData);            
-                this.weightTrackerService.emitIntro.emit(this.introData);
-                localStorage.setItem('introData', AES.encrypt(JSON.stringify(this.weightTrackerService.introData), SECRECT_PASS));
-            }else {
-                this.incompleteForm = true;
-            }
+        if(this.introForm.valid){
+            this.introDataService.storeIntroData(this.introData);
+            this.introDataSet.emit(this.isIntroDataValid());
+        }else {
+            this.incompleteForm = true;
+        }
+    }
+
+    private isIntroDataValid() {
+        if(this.introData.name !== '')
+            return true;
+        
+        return false;
     }
 }

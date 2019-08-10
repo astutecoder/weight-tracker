@@ -1,85 +1,87 @@
-<div class="jumbotron">
-    <h1 class="display-4">Welcome!</h1>
-    <p class="lead">We have noticed that you are visiting this site for the very first time. </p>
+<div class="bg-white p-3">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome!</h1>
+        <p class="lead">We have noticed that you are visiting this site for the very first time. </p>
+    </div>
+    
+    <p>Please provide following information to proceed</p>
+    <p class="alert alert-danger" *ngIf="introForm.submitted && incompleteForm">Form is incompletely filed. Please provide all valid information.</p>
+    
+    <form (ngSubmit)="handleSubmit()" #introForm="ngForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+                type="text" 
+                class="form-control" 
+                id="name" 
+                name="name" 
+                placeholder="Enter your name" 
+                autocomplete="off"
+                ngModel
+                (change)="onInputChange($event)"
+                #fullname="ngModel"
+                required
+                pattern="^[a-zA-z\.'\s]+$"
+            >
+            <span class="text-danger" *ngIf="fullname.touched && fullname.errors?.required">Please enter your full name</span>
+            <span class="text-danger" *ngIf="fullname.touched && fullname.errors?.pattern">Only alphabets, apostrophes and period is allowed</span>
+        </div>
+    
+        <div class="form-group">
+            <label for="initial_weight">Current Weight</label>
+            <input 
+                type="text" class="form-control" id="initial_weight" autocomplete="off"
+                aria-describedby="initial_weight_help" placeholder="Enter your current weight"
+                name="initial_weight" 
+                #initialWeight="ngModel"
+                ngModel
+                (change)="onInputChange($event)"
+                required
+                pattern="^(?!0)\d{2,3}(\.(\d{1,2}))?$"
+            >
+            <span class="text-danger" *ngIf="initialWeight.touched && initialWeight.errors && initialWeight.errors.required">Please provide your current weight</span>
+            <span class="text-danger" *ngIf="initialWeight.touched && initialWeight.errors && initialWeight.errors.pattern">Current weight should be a number (minumum 2 and maximum 3 digits before decimal point and maximum 2 digits after decimal point)</span>
+            <small id="initial_weight_help" class="form-text text-muted">Please enter your current weight in KG</small>
+        </div>
+    
+        <div class="form-group">
+            <label for="target_weight">Target Weight</label>
+            <input type="text" class="form-control" id="target_weight" autocomplete="off"
+            aria-describedby="target_weight_help" placeholder="Enter your target weight"
+                name="target_weight" 
+                #targetWeight="ngModel"
+                ngModel
+                (change)="onInputChange($event)"
+                required
+                pattern="^(?!0)\d{2,3}(\.(\d{1,2}))?$"
+            >
+            
+            <span class="text-danger" *ngIf="targetWeight.touched && targetWeight.errors && targetWeight.errors.required">Please provide your target weight</span>
+            <span class="text-danger" *ngIf="targetWeight.touched && targetWeight.errors && targetWeight.errors.pattern">Taget weight should be a number (minumum 2 and maximum 3 digits before decimal point and maximum 2 digits after decimal point)</span>
+            <small id="target_weight_help" class="form-text text-muted">Please enter your target weight in KG</small>
+        </div>
+    
+        <div class="form-group">
+            <label for="height">Height</label>
+            <input type="text" class="form-control" id="height" autocomplete="off"
+            aria-describedby="height_help" placeholder="Enter your height"
+                name="height" 
+                #heightRef="ngModel"
+                ngModel
+                (change)="onInputChange($event)"
+                required
+                pattern="^(?!0)[0-9]{2,3}(\.([0-9]{1,2}))?$"
+            >
+    
+            <span class="text-danger" *ngIf="heightRef.touched && heightRef.errors?.required">Please provide your height</span>
+            <span class="text-danger" *ngIf="heightRef.touched && heightRef.errors?.pattern">Height should be a number without leading 0 and maximum 3 digits before decimal point and maximum 2 digits after decimal point</span>
+            <small id="height_help" class="form-text text-muted">Please enter your height in Centimeter</small>
+        </div>
+        <button type="submit" class="btn"
+            [ngClass]="!introForm.valid ? 'btn-secondary' : 'btn-primary'"
+            [disabled]="!introForm.valid"
+        >
+            Submit
+        </button>
+    </form>  
 </div>
-
-<p>Please provide following information to proceed</p>
-<p class="alert alert-danger" *ngIf="introForm.submitted && incompleteForm">Form is incompletely filed. Please provide all valid information.</p>
-
-<form (ngSubmit)="handleSubmit()" #introForm="ngForm">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input 
-            type="text" 
-            class="form-control" 
-            id="name" 
-            name="name" 
-            placeholder="Enter your name" 
-            autocomplete="off"
-            ngModel
-            (change)="onInputChange($event)"
-            #fullname="ngModel"
-            required
-            pattern="^[a-zA-z\.'\s]+$"
-        >
-        <span class="text-danger" *ngIf="fullname.touched && fullname.errors?.required">Please enter your full name</span>
-        <span class="text-danger" *ngIf="fullname.touched && fullname.errors?.pattern">Only alphabets, apostrophes and period is allowed</span>
-    </div>
-
-    <div class="form-group">
-        <label for="initial_weight">Current Weight</label>
-        <input 
-            type="text" class="form-control" id="initial_weight" autocomplete="off"
-            aria-describedby="initial_weight_help" placeholder="Enter your current weight"
-            name="initial_weight" 
-            #initialWeight="ngModel"
-            ngModel
-            (change)="onInputChange($event)"
-            required
-            pattern="^(?!0)\d{2,3}(\.(\d{1,2}))?$"
-        >
-        <span class="text-danger" *ngIf="initialWeight.touched && initialWeight.errors && initialWeight.errors.required">Please provide your current weight</span>
-        <span class="text-danger" *ngIf="initialWeight.touched && initialWeight.errors && initialWeight.errors.pattern">Current weight should be a number (minumum 2 and maximum 3 digits before decimal point and maximum 2 digits after decimal point)</span>
-        <small id="initial_weight_help" class="form-text text-muted">Please enter your current weight in KG</small>
-    </div>
-
-    <div class="form-group">
-        <label for="target_weight">Target Weight</label>
-        <input type="text" class="form-control" id="target_weight" autocomplete="off"
-        aria-describedby="target_weight_help" placeholder="Enter your target weight"
-            name="target_weight" 
-            #targetWeight="ngModel"
-            ngModel
-            (change)="onInputChange($event)"
-            required
-            pattern="^(?!0)\d{2,3}(\.(\d{1,2}))?$"
-        >
-        
-        <span class="text-danger" *ngIf="targetWeight.touched && targetWeight.errors && targetWeight.errors.required">Please provide your target weight</span>
-        <span class="text-danger" *ngIf="targetWeight.touched && targetWeight.errors && targetWeight.errors.pattern">Taget weight should be a number (minumum 2 and maximum 3 digits before decimal point and maximum 2 digits after decimal point)</span>
-        <small id="target_weight_help" class="form-text text-muted">Please enter your target weight in KG</small>
-    </div>
-
-    <div class="form-group">
-        <label for="height">Height</label>
-        <input type="text" class="form-control" id="height" autocomplete="off"
-        aria-describedby="height_help" placeholder="Enter your height"
-            name="height" 
-            #heightRef="ngModel"
-            ngModel
-            (change)="onInputChange($event)"
-            required
-            pattern="^(?!0)[0-9]{2,3}(\.([0-9]{1,2}))?$"
-        >
-
-        <span class="text-danger" *ngIf="heightRef.touched && heightRef.errors?.required">Please provide your height</span>
-        <span class="text-danger" *ngIf="heightRef.touched && heightRef.errors?.pattern">Height should be a number without leading 0 and maximum 3 digits before decimal point and maximum 2 digits after decimal point</span>
-        <small id="height_help" class="form-text text-muted">Please enter your height in Centimeter</small>
-    </div>
-    <button type="submit" class="btn"
-        [ngClass]="!introForm.valid ? 'btn-secondary' : 'btn-primary'"
-        [disabled]="!introForm.valid"
-    >
-        Submit
-    </button>
-</form>  

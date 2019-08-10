@@ -1,10 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import CryptoJS, { AES } from 'crypto-js';
 
 import Intro from 'src/app/intro/intro.model';
 import { Weight } from '../weight.model';
-import { SECRECT_PASS } from 'src/app/shared/constants';
+import IntroDataServices from 'src/app/common/intro_data.services';
+import { WeightTrackerServices } from './../weight_tracker.services';
 
 @Component({
     selector: 'weight-entry',
@@ -13,11 +13,7 @@ import { SECRECT_PASS } from 'src/app/shared/constants';
 })
 export default class WeightEntry implements OnInit {
     @ViewChild('weightEntryForm', null) weightEntryForm: NgForm;
-    @Input('weightEdit') weightEdit: Weight;
-    @Input('indexEdit') index: number;
-    @Output('add-weight') addWeight = new EventEmitter<Weight>();
-    @Output('update-weight') updateWeight = new EventEmitter<{weight: Weight, index: number}>();
-    @Output('delete-weight') deleteWeight = new EventEmitter<{weight: Weight, index: number}>();
+    @Input('enable-edit-mode') enableEditMode: number;
     
     public weightValue: number;
     public id: number;
@@ -26,39 +22,43 @@ export default class WeightEntry implements OnInit {
     private isEditMode: boolean = false;
     private hasDeleteRequest: boolean = false;
     public intro = new Intro();
+    
+    private weight = new Weight();
+
+    constructor(private introDataService: IntroDataServices, private weightTrackerServices: WeightTrackerServices) {}
 
     ngOnInit() {        
         if (this.intro.name === '') {
-            this.intro = JSON.parse(AES.decrypt(localStorage.getItem('introData'), SECRECT_PASS).toString(CryptoJS.enc.Utf8))
+            this.intro = this.introDataService.getIntroData();
         }
     }
 
-    ngOnChanges(changes){
-        if(this.weightEdit.weight) {
-            this.id = this.index;
-            this.weightValue = this.weightEdit.weight;
-            this.date = new Date(this.weightEdit.date);
-            this.note = this.weightEdit.note;
+    ngOnChanges(){
+        if(this.enableEditMode >= 0) {
+            this.weightValue = this.weightTrackerServices.weight.weight;
+            this.date = new Date(this.weightTrackerServices.weight.date);
+            this.note = this.weightTrackerServices.weight.note;
             this.isEditMode = true;
         }
-        console.log('on change',this.weightEdit, changes)
+        if(this.enableEditMode === null) {
+            this.weightValue = undefined;
+            this.date = undefined;
+            this.note = null;
+            this.isEditMode = false;
+        }
     }
     
     handleAddWeight()  {
-        console.log(this.weightEntryForm)
         if (this.weightEntryForm.valid && !this.isEditMode){
-            this.addWeight.emit(new Weight(Number(this.weightValue), this.date.getTime(), this.note));
-            
+            this.weightTrackerServices.addWeight(new Weight(Number(this.weightValue), this.date.getTime(), this.note));
             return this.resetForm()
         }
-
         if(this.isEditMode) this.handleUpdateWeight();
     }
 
     private handleUpdateWeight() {        
         if(this.weightEntryForm.valid && this.isEditMode && !this.hasDeleteRequest){
-            this.updateWeight.emit({weight: new Weight(Number(this.weightValue), this.date.getTime(), this.note), index: this.id});
-            
+            this.weightTrackerServices.updateWeight(new Weight(Number(this.weightValue), this.date.getTime(), this.note));            
             return this.resetForm();
         }
         if(this.hasDeleteRequest) return this.deleteReq();
@@ -70,21 +70,14 @@ export default class WeightEntry implements OnInit {
 
     private deleteReq() {
         if(confirm('Are you sure to delete this?')) {
-            this.deleteWeight.emit({weight: new Weight(Number(this.weightValue), this.date.getTime(), this.note), index: this.id});
-            
+            this.weightTrackerServices.deleteWeight();            
             this.resetForm();
         }        
         this.hasDeleteRequest = false;
     }
 
-    private resetForm () {        
-        this.isEditMode = false;
-        this.hasDeleteRequest = false;
+    private resetForm () {      
         this.weightEntryForm.reset();
-        console.log('reset', this.weightEdit)
-    }
-
-    ngOnDestroy() {
-        console.log('asdfsa destroy')
+        this.weightTrackerServices.selectedIndex = null;
     }
 }

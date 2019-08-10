@@ -19,7 +19,7 @@ import HeaderComponent from './header/header.component';
 import WeigthTrackerComponent from './weight-tracker/weight-tracker.component';
 import IntroComponent from './intro/intro.component';
 import WeightEntry from './weight-tracker/weight-entry/weight-entry.component';
-import WeightTrackerServices from './shared/weight_tracker.services';
+import IntroDataServices from './common/intro_data.services';
 import { HttpClientModule } from '@angular/common/http';
 import { WeightCardComponent } from './weight-tracker/weight-card/weight-card.component';
 
@@ -45,7 +45,7 @@ import { WeightCardComponent } from './weight-tracker/weight-card/weight-card.co
     MatButtonModule,
     MatToolbarModule
   ],
-  providers: [WeightTrackerServices],
+  providers: [IntroDataServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

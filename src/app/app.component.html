@@ -4,7 +4,7 @@
     <div class="col-12">
       <app-weight-tracker *ngIf="hasIntroData; else appIntro"></app-weight-tracker>
       <ng-template #appIntro>
-        <app-intro></app-intro>
+        <app-intro (intro-data-set)="handleIntroDataCheck($event)"></app-intro>
       </ng-template>
     </div>
   </div>
