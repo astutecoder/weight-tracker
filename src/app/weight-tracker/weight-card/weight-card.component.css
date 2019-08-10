@@ -1,0 +1,25 @@
+.card {
+    border: none;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+    transition: all 0.5s;
+}
+.card:hover {
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.6);
+}
+
+.up, .down {
+    position: relative;
+    top: 0.5rem
+}
+.up { color: red }
+.down { color: green }
+.up > .material-icons, .down > .material-icons {
+    font-size: 2rem
+}
+
+.edit {
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+    transition: all 0.5s;
+}
+.edit:hover { color: white }

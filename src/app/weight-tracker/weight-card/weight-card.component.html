@@ -1,0 +1,27 @@
+<div class="card bg-light mb-3">
+    <div 
+        class="card-header text-white" 
+        [ngClass]="{'up': 'bg-warning', 'down': 'bg-info', undefined: 'bg-info'}[weight.indicator]"
+    >
+        {{ dateBeautify(weight.date) }}
+        <span class="float-right edit" (click)="edit()">
+            <mat-icon>edit</mat-icon>
+        </span>
+    </div>
+    <div class="card-body">
+        <h2 class="card-title">
+            {{ weight.weight }}
+            <span *ngIf="weight.indicator">
+                <span class="up" *ngIf="weight.indicator === 'up'; else downIndicator">
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                </span>
+                <ng-template #downIndicator>
+                    <span class="down">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                    </span>
+                </ng-template>
+            </span>
+        </h2>
+        <p class="card-text">{{ weight.note }}</p>
+    </div>
+</div>

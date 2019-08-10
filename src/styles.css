@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+button:active, button:visited, button:focus {
+    outline: 0 !important;
+}
+
+body {
+    background: url('./assets/images/bg-pattern.jpg');
+    background-attachment: fixed
+}
+body::after {
+    background: rgba(0,0,0,0.4);
+    content: "";
+    display: block;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: -100;
+}

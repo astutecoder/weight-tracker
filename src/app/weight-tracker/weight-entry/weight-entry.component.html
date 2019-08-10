@@ -1,0 +1,64 @@
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <div class="card-title">
+            <h5 >Hello {{intro?.name}}! </h5>
+            <p class="lead">Please Enter your weight data</p>
+        </div>
+        <form class="card-text" #weightEntryForm="ngForm" (ngSubmit)="handleAddWeight()">
+            <div class="row">
+                <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Weight</mat-label>
+                    <input type="text" autocomplete="off"
+                        name="weight" placeholder="Your weight"
+                        matInput
+                        #weight='ngModel'
+                        [(ngModel)]="weightValue"
+                        required
+                        pattern="^(?!0)[0-9]{2,3}(\.([0-9]{1,2}))?$"                        
+                    >
+                    <mat-hint>Please provide your weight in KG</mat-hint>
+                    <mat-error *ngIf="weight.touched && weight.errors?.required">This field is required</mat-error>
+                    <mat-error *ngIf="weight.touched && weight.errors?.pattern">Weight should be a number without leading 0 and minimum 2 & maximum 3 digits before decimal point and maximum 2 digits after decimal point</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="standard" class="col-sm-6">
+                    <mat-label>Date</mat-label>
+                    <input type="text" autocomplete="off"
+                        name="date" placeholder="Select Entry Date"
+                        readonly
+                        matInput
+                        #dateField="ngModel"
+                        [matDatepicker]="picker"
+                        [(ngModel)]="date"
+                        required
+                    >
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon color="primary">calendar_today</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker disabled="false" #picker touchUi="true"></mat-datepicker>
+                    <mat-hint>Month/Day/Year</mat-hint>
+                    <mat-error *ngIf="dateField.errors?.required">This field is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="standard" class="col-sm-12 mt-3">
+                    <mat-label>Note</mat-label>
+                    <textarea 
+                        name="note" placeholder="Note some important points"
+                        matInput 
+                        [(ngModel)]="note"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 mt-3">
+                    <button type="submit" mat-raised-button color="primary" *ngIf="!isEditMode; else update">Submit</button>
+                    <ng-template #update>
+                        <button mat-raised-button class="btn btn-success mr-3">Update</button>
+                        <button mat-raised-button class="btn btn-danger mr-3" (click)="handleDeleteReq()">Delete</button>
+                        <button mat-raised-button class="btn btn-warning" (click)="resetForm()">Cancel</button>
+                    </ng-template>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-sm-12">
+        <weight-entry 
+            [weightEdit]="weight"
+            [indexEdit]="index"
+            (add-weight)="addWeight($event)" 
+            (update-weight)="updateWeight($event)" 
+            (delete-weight)="deleteWeight($event)" 
+        ></weight-entry>
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <weight-card 
+                class="col-md-4 col-sm-6 col-12" 
+                *ngFor="let weightData of weights; index as i"
+                [weight]="weightData"
+                [index]="i"
+                (edit-weight)="editWeight($event)"></weight-card>
+        </div>
+    </div>
+</div>

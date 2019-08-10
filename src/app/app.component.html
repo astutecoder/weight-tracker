@@ -1,0 +1,11 @@
+<app-header *ngIf="hasIntroData"></app-header>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <app-weight-tracker *ngIf="hasIntroData; else appIntro"></app-weight-tracker>
+      <ng-template #appIntro>
+        <app-intro></app-intro>
+      </ng-template>
+    </div>
+  </div>
+</div>
