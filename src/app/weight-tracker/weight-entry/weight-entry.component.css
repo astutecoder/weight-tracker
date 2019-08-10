@@ -6,3 +6,17 @@
 .card:hover {
     box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
 }
+
+.expand-form {
+    backface-visibility: hidden;
+    cursor: pointer;
+    line-height: 0;
+    transition: all 0.5s;
+    transform-origin: center center;
+    position: relative;
+    top: 5px;
+    left: -3px;
+}
+.rotate45 {
+    transform: perspective(10px) rotate(45deg);
+}

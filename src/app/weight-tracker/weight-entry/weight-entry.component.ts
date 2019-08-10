@@ -21,6 +21,7 @@ export class WeightEntry implements OnInit {
     public note: string;
     public isEditMode: boolean = false;
     private hasDeleteRequest: boolean = false;
+    public showEntryForm: boolean = false;
     public isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex;
     public intro = new Intro();
 
@@ -34,6 +35,7 @@ export class WeightEntry implements OnInit {
 
     ngOnChanges(){
         if(this.enableEditMode >= 0) {
+            this.showEntryForm = true;
             this.weightValue = this.weightTrackerServices.weight.weight;
             this.date = new Date(this.weightTrackerServices.weight.date);
             this.note = this.weightTrackerServices.weight.note;
@@ -41,6 +43,7 @@ export class WeightEntry implements OnInit {
             this.isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex
         }
         if(this.enableEditMode === null) {
+            this.showEntryForm = false;
             this.weightValue = undefined;
             this.date = undefined;
             this.note = null;
@@ -51,6 +54,8 @@ export class WeightEntry implements OnInit {
     handleAddWeight()  {
         if (this.weightEntryForm.valid && !this.isEditMode){
             this.weightTrackerServices.addWeight(new Weight(Number(this.weightValue), this.date.getTime(), this.note));
+
+            this.showEntryForm = false;
             return this.resetForm()
         }
         if(this.isEditMode) this.handleUpdateWeight();
@@ -59,6 +64,8 @@ export class WeightEntry implements OnInit {
     private handleUpdateWeight() {        
         if(this.weightEntryForm.valid && this.isEditMode && !this.hasDeleteRequest){
             this.weightTrackerServices.updateWeight(new Weight(Number(this.weightValue), this.date.getTime(), this.note));            
+
+            this.showEntryForm = false;
             return this.resetForm();
         }
         if(this.hasDeleteRequest) return this.deleteReq();
@@ -71,6 +78,8 @@ export class WeightEntry implements OnInit {
     private deleteReq() {
         if(confirm('Are you sure to delete this?')) {
             this.weightTrackerServices.deleteWeight();            
+
+            this.showEntryForm = false;
             this.resetForm();
         }        
         this.hasDeleteRequest = false;
@@ -79,5 +88,6 @@ export class WeightEntry implements OnInit {
     public resetForm () {      
         this.weightEntryForm.reset();
         this.weightTrackerServices.selectedIndex = null;
+        this.showEntryForm = false;
     }
 }
