@@ -3,6 +3,6 @@ export class Weight {
         public weight: number = undefined,
         public date: number = undefined,
         public note: string = null,
-        private indicator ?: string,
+        public indicator : string = 'stable',
     ) {}
 }

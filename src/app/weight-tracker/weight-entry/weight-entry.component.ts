@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import Intro from 'src/app/intro/intro.model';
 import { Weight } from '../weight.model';
-import IntroDataServices from 'src/app/common/intro_data.services';
+import { IntroDataServices } from 'src/app/common/intro_data.services';
 import { WeightTrackerServices } from './../weight_tracker.services';
 
 @Component({
@@ -11,7 +11,7 @@ import { WeightTrackerServices } from './../weight_tracker.services';
     templateUrl: './weight-entry.component.html',
     styleUrls: ['./weight-entry.component.css']
 })
-export default class WeightEntry implements OnInit {
+export class WeightEntry implements OnInit {
     @ViewChild('weightEntryForm', null) weightEntryForm: NgForm;
     @Input('enable-edit-mode') enableEditMode: number;
     
@@ -19,11 +19,9 @@ export default class WeightEntry implements OnInit {
     public id: number;
     public date: Date;
     public note: string;
-    private isEditMode: boolean = false;
+    public isEditMode: boolean = false;
     private hasDeleteRequest: boolean = false;
     public intro = new Intro();
-    
-    private weight = new Weight();
 
     constructor(private introDataService: IntroDataServices, private weightTrackerServices: WeightTrackerServices) {}
 
@@ -76,7 +74,7 @@ export default class WeightEntry implements OnInit {
         this.hasDeleteRequest = false;
     }
 
-    private resetForm () {      
+    public resetForm () {      
         this.weightEntryForm.reset();
         this.weightTrackerServices.selectedIndex = null;
     }

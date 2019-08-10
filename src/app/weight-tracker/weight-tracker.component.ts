@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 
 import { WeightTrackerServices } from './weight_tracker.services';
 import { Weight } from './weight.model';
@@ -9,10 +9,8 @@ import { Weight } from './weight.model';
     styleUrls: ['./weight-tracker.component.css'],
     encapsulation: ViewEncapsulation.Emulated
 })
-export default class WeigthTrackerComponent implements OnInit {
-    public weights: Weight[] = [];
-    public weight = new Weight();
-    public index: number;
+export class WeigthTrackerComponent implements OnInit {
+    public weights: Weight[] = this.weightTrackerServices.weightAll;
 
     constructor(public weightTrackerServices: WeightTrackerServices){}
 

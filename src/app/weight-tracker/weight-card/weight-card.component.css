@@ -1,3 +1,7 @@
+.bg-stable {
+    background: #2b70ab;
+}
+
 .card {
     border: none;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.6);
@@ -7,13 +11,14 @@
     box-shadow: 3px 3px 15px rgba(0,0,0,0.6);
 }
 
-.up, .down {
+.up, .down, .stable {
     position: relative;
     top: 0.5rem
 }
 .up { color: red }
 .down { color: green }
-.up > .material-icons, .down > .material-icons {
+.stable { color: #2b70ab; top: 0.4rem !important; }
+.up > .material-icons, .down > .material-icons, .stable > .material-icons {
     font-size: 2rem
 }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import IntroDataServices from './common/intro_data.services';
+import { IntroDataServices } from './common/intro_data.services';
 import Intro from './intro/intro.model';
 
 @Component({
@@ -9,7 +9,7 @@ import Intro from './intro/intro.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  private hasIntroData = false;
+  public hasIntroData = false;
   
   constructor(public introDataService: IntroDataServices){}
   

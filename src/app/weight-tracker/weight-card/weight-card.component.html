@@ -1,7 +1,12 @@
 <div class="card bg-light mb-3">
     <div 
         class="card-header text-white" 
-        [ngClass]="{'up': 'bg-warning', 'down': 'bg-info', undefined: 'bg-info'}[weight.indicator]"
+        [ngClass]="{
+            'up': 'bg-warning',
+            'down': 'bg-info',
+            'stable': 'bg-stable',
+            'start': 'bg-stable'
+        }[weight.indicator]"
     >
         {{ dateBeautify(weight.date) }}
         <span class="float-right edit" (click)="edit()">
@@ -16,8 +21,18 @@
                     <mat-icon>keyboard_arrow_up</mat-icon>
                 </span>
                 <ng-template #downIndicator>
-                    <span class="down">
+                    <span class="down" *ngIf="weight.indicator === 'down'; else stableIndicator">
                         <mat-icon>keyboard_arrow_down</mat-icon>
+                    </span>
+                </ng-template>
+                <ng-template #stableIndicator>
+                    <span class="stable" *ngIf="weight.indicator === 'stable'; else startIndicator">
+                        <mat-icon>swap_vert</mat-icon>
+                    </span>
+                </ng-template>
+                <ng-template #startIndicator>
+                    <span class="stable start">
+                        <mat-icon>pin_drop</mat-icon>
                     </span>
                 </ng-template>
             </span>

@@ -2,14 +2,14 @@ import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import Intro from './intro.model'
-import IntroDataServices from '../common/intro_data.services';
+import { IntroDataServices } from '../common/intro_data.services';
 
 @Component({
     selector: 'app-intro',
     templateUrl: './intro.component.html',
     styleUrls: ['./intro.component.css']
 })
-export default class IntroComponent {
+export class IntroComponent {
     @ViewChild('introForm', null) introForm: NgForm;
     @Output('intro-data-set') introDataSet = new EventEmitter<boolean>();
     private introData: Intro = new Intro();

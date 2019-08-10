@@ -2,10 +2,10 @@
 import Intro from '../intro/intro.model';
 import CryptoJS, { AES } from 'crypto-js';
 import { SECRECT_PASS } from './constants';
+import { Injectable } from '@angular/core';
 
-
-export default class IntroDataServices {
-    // public emitIntro = new EventEmitter<Intro>();
+@Injectable({ providedIn: 'root' })
+export class IntroDataServices {
     public introData : Intro = new Intro();
     
     constructor() {
