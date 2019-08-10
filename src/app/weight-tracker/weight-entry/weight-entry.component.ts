@@ -21,6 +21,7 @@ export class WeightEntry implements OnInit {
     public note: string;
     public isEditMode: boolean = false;
     private hasDeleteRequest: boolean = false;
+    public isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex;
     public intro = new Intro();
 
     constructor(private introDataService: IntroDataServices, private weightTrackerServices: WeightTrackerServices) {}
@@ -37,6 +38,7 @@ export class WeightEntry implements OnInit {
             this.date = new Date(this.weightTrackerServices.weight.date);
             this.note = this.weightTrackerServices.weight.note;
             this.isEditMode = true;
+            this.isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex
         }
         if(this.enableEditMode === null) {
             this.weightValue = undefined;
