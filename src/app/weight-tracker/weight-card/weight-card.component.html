@@ -15,7 +15,7 @@
     </div>
     <div class="card-body">
         <h2 class="card-title">
-            {{ weight.weight }}
+            {{ weight.weight | number:'.1-1' }} kg
             <span *ngIf="weight.indicator">
                 <span class="up" *ngIf="weight.indicator === 'up'; else downIndicator">
                     <mat-icon>keyboard_arrow_up</mat-icon>

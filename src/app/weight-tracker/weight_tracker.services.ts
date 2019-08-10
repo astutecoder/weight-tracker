@@ -27,6 +27,7 @@ export class WeightTrackerServices {
     }
 
     addWeight(payload: Weight){
+        this.weight = payload;
         this.addOrUpdate(0, 0, 0, payload)
         this.storeWeightAll();
     }
@@ -35,6 +36,8 @@ export class WeightTrackerServices {
         let currentIndex = this.selectedIndex;
         let previousIndex = currentIndex - 1;
         let nextIndex = currentIndex + 1;
+
+        this.weight = payload;
         
         this.addOrUpdate(currentIndex, 1, nextIndex, payload);
         
