@@ -7,7 +7,19 @@
     box-shadow: 5px 5px 15px rgba(0,0,0,0.6);
 }
 
-.expand-form {
+.animate {
+    overflow: hidden;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+}
+.full-height {    
+    max-height: 800px;
+}
+.height0 {
+    max-height: 0px;
+}
+
+.expand-form-btn {
     backface-visibility: hidden;
     cursor: pointer;
     line-height: 0;

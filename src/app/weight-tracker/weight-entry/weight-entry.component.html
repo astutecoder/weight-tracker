@@ -5,7 +5,7 @@
             <p class="lead">
                 <span 
                     (click)="showEntryForm = !showEntryForm"
-                    class="float-left expand-form"
+                    class="float-left expand-form-btn"
                     [class.rotate45]="showEntryForm"
                 >
                     <mat-icon>add_circle_outline</mat-icon>
@@ -13,7 +13,7 @@
                 Add new weight data                
             </p>
         </div>
-        <form class="card-text" #weightEntryForm="ngForm" (ngSubmit)="handleAddWeight()" *ngIf="showEntryForm">
+    <form class="card-text" #weightEntryForm="ngForm" (ngSubmit)="handleAddWeight()" class="animate full-height" [class.height0]="!showEntryForm">
             <div class="row">
                 <mat-form-field appearance="standard" class="col-sm-6">
                     <mat-label>Weight</mat-label>
