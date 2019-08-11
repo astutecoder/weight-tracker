@@ -9,7 +9,7 @@ export class WeightTrackerServices {
     public weight: Weight;
     public weightAll: Weight[] = [];
     public selectedIndex: number;
-    public enableWeightEdit: boolean = false;
+    public showWeightEntryForm: boolean = false;
 
     getWeightAll() {
         this.weightAll = JSON.parse(AES.decrypt(localStorage.getItem('WeightData'), SECRECT_PASS).toString(CryptoJS.enc.Utf8));        
@@ -48,7 +48,11 @@ export class WeightTrackerServices {
     }
 
     deleteWeight(){
-        this.weightAll.splice(this.selectedIndex, 1);
+        const currentIndex = this.selectedIndex;
+        if(this.weightAll[currentIndex-1]){
+            this.addOrUpdate((currentIndex-1), 1, currentIndex+1, this.weightAll[currentIndex-1])
+        }
+        this.weightAll.splice(currentIndex, 1);
         this.storeWeightAll();
     }
 

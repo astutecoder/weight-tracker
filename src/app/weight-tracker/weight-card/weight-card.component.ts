@@ -23,8 +23,12 @@ export class WeightCardComponent implements OnInit {
   }
 
   edit() {
+    const entryFormWrapper = document.querySelector('#weightEntryFormWrapper');
+    entryFormWrapper.scrollIntoView({ block: 'end',  behavior: 'smooth' });
+    
     this.weightTrackerServices.selectedIndex = this.index
     this.weightTrackerServices.weight = this.weight;
+    this.weightTrackerServices.showWeightEntryForm = true;
   }
 
 }

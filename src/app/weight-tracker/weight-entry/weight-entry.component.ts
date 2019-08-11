@@ -5,6 +5,7 @@ import Intro from 'src/app/intro/intro.model';
 import { Weight } from '../weight.model';
 import { IntroDataServices } from 'src/app/common/intro_data.services';
 import { WeightTrackerServices } from './../weight_tracker.services';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'weight-entry',
@@ -15,19 +16,20 @@ export class WeightEntry implements OnInit {
     @ViewChild('weightEntryForm', null) weightEntryForm: NgForm;
     @Input('enable-edit-mode') enableEditMode: number;
     
+    public intro = new Intro();
+    
     public weightValue: number;
     public id: number;
-    public date: Date;
+    public date: Date;;
     public note: string;
+    
     public isEditMode: boolean = false;
-    private hasDeleteRequest: boolean = false;
-    public showEntryForm: boolean = false;
     public isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex;
-    public intro = new Intro();
+    private hasDeleteRequest: boolean = false;
 
     constructor(private introDataService: IntroDataServices, private weightTrackerServices: WeightTrackerServices) {}
 
-    ngOnInit() {        
+    ngOnInit() {
         if (this.intro.name === '') {
             this.intro = this.introDataService.getIntroData();
         }
@@ -35,19 +37,17 @@ export class WeightEntry implements OnInit {
 
     ngOnChanges(){
         if(this.enableEditMode >= 0) {
-            this.showEntryForm = true;
             this.weightValue = this.weightTrackerServices.weight.weight;
             this.date = new Date(this.weightTrackerServices.weight.date);
             this.note = this.weightTrackerServices.weight.note;
+            
             this.isEditMode = true;
             this.isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex
+            
+            this.weightTrackerServices.showWeightEntryForm = true;
         }
         if(this.enableEditMode === null) {
-            this.showEntryForm = false;
-            this.weightValue = undefined;
-            this.date = undefined;
-            this.note = null;
-            this.isEditMode = false;
+            this.resetForm();
         }
     }
     
@@ -55,8 +55,7 @@ export class WeightEntry implements OnInit {
         if (this.weightEntryForm.valid && !this.isEditMode){
             this.weightTrackerServices.addWeight(new Weight(Number(this.weightValue), this.date.getTime(), this.note));
 
-            this.showEntryForm = false;
-            return this.resetForm()
+            this.resetForm();
         }
         if(this.isEditMode) this.handleUpdateWeight();
     }
@@ -65,8 +64,7 @@ export class WeightEntry implements OnInit {
         if(this.weightEntryForm.valid && this.isEditMode && !this.hasDeleteRequest){
             this.weightTrackerServices.updateWeight(new Weight(Number(this.weightValue), this.date.getTime(), this.note));            
 
-            this.showEntryForm = false;
-            return this.resetForm();
+            this.resetForm();
         }
         if(this.hasDeleteRequest) return this.deleteReq();
     }
@@ -79,15 +77,17 @@ export class WeightEntry implements OnInit {
         if(confirm('Are you sure to delete this?')) {
             this.weightTrackerServices.deleteWeight();            
 
-            this.showEntryForm = false;
             this.resetForm();
         }        
         this.hasDeleteRequest = false;
     }
 
-    public resetForm () {      
-        this.weightEntryForm.reset();
+    public resetForm () {
+        this.isEditMode = false;
+        
         this.weightTrackerServices.selectedIndex = null;
-        this.showEntryForm = false;
+        this.weightTrackerServices.showWeightEntryForm = false;
+        
+        this.weightEntryForm.resetForm()
     }
 }
