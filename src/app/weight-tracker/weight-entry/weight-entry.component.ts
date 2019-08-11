@@ -27,7 +27,7 @@ export class WeightEntry implements OnInit {
     public isDeletable = (this.weightTrackerServices.weightAll.length - 1) !== this.weightTrackerServices.selectedIndex;
     private hasDeleteRequest: boolean = false;
 
-    constructor(private introDataService: IntroDataServices, private weightTrackerServices: WeightTrackerServices) {}
+    constructor(private introDataService: IntroDataServices, public weightTrackerServices: WeightTrackerServices) {}
 
     ngOnInit() {
         if (this.intro.name === '') {
