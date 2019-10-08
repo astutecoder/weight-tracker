@@ -20,7 +20,7 @@ export class WeightEntry implements OnInit {
     
     public weightValue: number;
     public id: number;
-    public date: Date;;
+    public date: Date;
     public note: string;
     
     public isEditMode: boolean = false;
